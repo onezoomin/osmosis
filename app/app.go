@@ -516,6 +516,7 @@ func NewOsmosisApp(
 		lockup.NewAppModule(appCodec, app.LockupKeeper, app.AccountKeeper, app.BankKeeper),
 		poolincentives.NewAppModule(appCodec, app.PoolIncentivesKeeper),
 		epochs.NewAppModule(appCodec, app.EpochsKeeper),
+		tokenfactory.NewAppModule(appCodec, app.TokenFactoryKeeper),
 	)
 
 	// During begin block slashing happens after distr.BeginBlocker so that
@@ -552,6 +553,7 @@ func NewOsmosisApp(
 		incentivestypes.ModuleName,
 		epochstypes.ModuleName,
 		lockuptypes.ModuleName,
+		tokenfactorytypes.ModuleName,
 	)
 
 	app.mm.RegisterInvariants(&app.CrisisKeeper)
@@ -581,6 +583,7 @@ func NewOsmosisApp(
 		poolincentives.NewAppModule(appCodec, app.PoolIncentivesKeeper),
 		epochs.NewAppModule(appCodec, app.EpochsKeeper),
 		transferModule,
+		tokenfactory.NewAppModule(appCodec, app.TokenFactoryKeeper),
 	)
 
 	app.sm.RegisterStoreDecoders()

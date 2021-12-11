@@ -25,11 +25,11 @@ done
 # Make sure the path is set correctly
 export PATH=~/go/bin:$PATH
 
-echo "osmosis Version: `osmosis version`"
+echo "osmosisd Version: `osmosisd version`"
 
-osmosis keys show validator --keyring-backend ${KeyringBackend} || osmosis keys add validator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Validator add failed"
-osmosis keys show delegator --keyring-backend ${KeyringBackend} || osmosis keys add delegator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Delegator add failed"
-osmosis init node --chain-id ${Chain} || exit_with_error "Error: Could not init node"
+osmosisd keys show validator --keyring-backend ${KeyringBackend} || osmosisd keys add validator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Validator add failed"
+osmosisd keys show delegator --keyring-backend ${KeyringBackend} || osmosisd keys add delegator --keyring-backend ${KeyringBackend} || exit_with_error "Error: Delegator add failed"
+osmosisd init node --chain-id ${Chain} || exit_with_error "Error: Could not init node"
 
 # Change the staking token to uosmo
 # Note: sed works differently on different platforms
@@ -37,10 +37,10 @@ echo "Updating your staking token to uosmo in the genesis file..."
 OS=`uname`
 if [[ $OS == "Linux"* ]]; then
     echo "Your OS is a Linux variant..."
-    sed -i "s/stake/uosmo/g" ~/.osmosis/config/genesis.json || exit_with_error "Error: Could not update staking token"
+    sed -i "s/stake/uosmo/g" ~/.osmosisd/config/genesis.json || exit_with_error "Error: Could not update staking token"
 elif [[ $OS == "Darwin"* ]]; then
     echo "Your OS is Mac OS/darwin..."
-    sed -i "" "s/stake/uosmo/g" ~/.osmosis/config/genesis.json || exit_with_error "Error: Could not update staking token"
+    sed -i "" "s/stake/uosmo/g" ~/.osmosisd/config/genesis.json || exit_with_error "Error: Could not update staking token"
 else
     # Dunno
     echo "Your OS is not supported"
@@ -48,14 +48,14 @@ else
 fi
 
 echo "Adding validator to genesis.json..."
-osmosis add-genesis-account validator 5000000000uosmo --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add validator to genesis"
+osmosisd add-genesis-account validator 5000000000uosmo --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add validator to genesis"
 
 echo "Adding delegator to genesis.json..."
-osmosis add-genesis-account delegator 2000000000uosmo --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add delegator to genesis"
+osmosisd add-genesis-account delegator 2000000000uosmo --keyring-backend ${KeyringBackend} || exit_with_error "Error: Could not add delegator to genesis"
 echo "Creating genesis transaction..."
-osmosis gentx validator 1000000uosmo --chain-id ${Chain} --keyring-backend ${KeyringBackend} || exit_with_error "Error: Genesis transaction failed"
+osmosisd gentx validator 1000000uosmo --chain-id ${Chain} --keyring-backend ${KeyringBackend} || exit_with_error "Error: Genesis transaction failed"
 
 echo "Adding genesis transaction to genesis.json..."
-osmosis collect-gentxs || exit_with_error "Error: Could not add transaction to genesis"
+osmosisd collect-gentxs || exit_with_error "Error: Could not add transaction to genesis"
 
-echo "If there were no errors above, you can now type 'osmosis start' to start your node"
+echo "If there were no errors above, you can now type 'osmosisd start' to start your node"

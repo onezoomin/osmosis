@@ -2,12 +2,12 @@ package types
 
 import (
 	"encoding/json"
-	"errors"
+// 	"errors"
 	"fmt"
 	time "time"
 
 	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+// 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
 func NewGenesisState(params Params, lockableDurations []time.Duration, distrInfo *DistrInfo) *GenesisState {
@@ -50,9 +50,9 @@ func ValidateGenesis(data *GenesisState) error {
 		return err
 	}
 
-	if data.DistrInfo.TotalWeight.LT(sdk.NewInt(0)) {
-		return errors.New("distrinfo weight should not be negative")
-	}
+// 	if data.DistrInfo.TotalWeight.LT(sdk.NewInt(0)) {
+// 		return errors.New("distrinfo weight should not be negative")
+// 	}
 
 	return validateLockableDurations(data.LockableDurations)
 }

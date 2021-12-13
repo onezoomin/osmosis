@@ -39,7 +39,7 @@ if [[ $OS == "Linux"* ]]; then
     echo "Your OS is a Linux variant..."
     sed -i "s/stake/uosmo/g" ~/.osmosisd/config/genesis.json || exit_with_error "Error: Could not update staking token"
     
-    sed -i "s/minimum-gas-prices = ""/minimum-gas-prices = 0/g" ~/.osmosisd/config/app.toml || exit_with_error "Error: Could not update app.toml"
+    sed -i "s/minimum-gas-prices = \"\"/minimum-gas-prices = 0/g" ~/.osmosisd/config/app.toml || exit_with_error "Error: Could not update app.toml"
     sed -i "s/enabled-unsafe-cors = false/enabled-unsafe-cors = true/g" ~/.osmosisd/config/app.toml || exit_with_error "Error: Could not update app.toml"
     sed -i "s/cors_allowed_origins = \[\]/cors_allowed_origins = \[\"\*\"\]/g" ~/.osmosisd/config/config.toml || exit_with_error "Error: Could not update config.toml"
 elif [[ $OS == "Darwin"* ]]; then
